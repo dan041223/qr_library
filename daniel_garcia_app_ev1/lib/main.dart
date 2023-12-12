@@ -142,11 +142,10 @@ class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => QR_Scanner();
+  State<StatefulWidget> createState() => _QRViewExampleState();
 }
 
-// ignore: camel_case_types
-class QR_Scanner extends State<QRViewExample> {
+class _QRViewExampleState extends State<QRViewExample> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -197,9 +196,9 @@ class QR_Scanner extends State<QRViewExample> {
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
       overlay: QrScannerOverlayShape(
-          borderColor: Colors.red,
-          borderRadius: 10,
-          borderLength: 30,
+          borderColor: const Color.fromARGB(255, 26, 13, 218),
+          borderRadius: 0,
+          borderLength: 50,
           borderWidth: 10,
           cutOutSize: scanArea),
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
