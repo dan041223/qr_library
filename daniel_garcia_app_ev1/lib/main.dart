@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Flutter Demo Home Page')),
+      appBar: AppBar(title: const Text('Lector de QR')),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
               builder: (context) => const QRViewExample(),
             ));
           },
-          child: const Text('qrView'),
+          child: const Text('Activar el lector de QR'),
         ),
       ),
     );
