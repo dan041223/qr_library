@@ -1,11 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-void main() => runApp(const MaterialApp(home: MyApp()));
+void main() => runApp(const MaterialApp(
+      home: MyApp(),
+      debugShowCheckedModeBanner: false,
+    ));
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -28,14 +30,123 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ignore: camel_case_types
+class QR_Record extends StatefulWidget {
+  const QR_Record({super.key});
+
+  @override
+  State<QR_Record> createState() => _QR_RecordState();
+}
+
+// ignore: camel_case_types
+class _QR_RecordState extends State<QR_Record> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Aun no implementado", style: TextStyle(fontSize: 25))
+            ],
+          )
+        ],
+      ),
+      bottomNavigationBar:
+          BottomNavigationBar(items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            icon: Icon(Icons.list_outlined), label: "Library"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.qr_code_2), label: "QR Reader"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.watch_later_outlined), label: "Record"),
+      ], currentIndex: 2, onTap: pulsarOpcion),
+    );
+  }
+
+  void pulsarOpcion(int index) {
+    switch (index) {
+      case 0:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const QR_Library(),
+        ));
+        break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const QRViewExample(),
+        ));
+        break;
+      case 2:
+        break;
+    }
+  }
+}
+
+// ignore: camel_case_types
+class QR_Library extends StatefulWidget {
+  const QR_Library({super.key});
+
+  @override
+  State<QR_Library> createState() => _QR_LibraryState();
+}
+
+// ignore: camel_case_types
+class _QR_LibraryState extends State<QR_Library> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Aun no implementado", style: TextStyle(fontSize: 25))
+            ],
+          )
+        ],
+      ),
+      bottomNavigationBar:
+          BottomNavigationBar(items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+            icon: Icon(Icons.list_outlined), label: "Library"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.qr_code_2), label: "QR Reader"),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.watch_later_outlined), label: "Record"),
+      ], currentIndex: 0, onTap: pulsarOpcion),
+    );
+  }
+
+  void pulsarOpcion(int index) {
+    switch (index) {
+      case 0:
+        break;
+      case 1:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const QRViewExample(),
+        ));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const QR_Record(),
+        ));
+        break;
+    }
+  }
+}
+
 class QRViewExample extends StatefulWidget {
   const QRViewExample({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _QRViewExampleState();
+  State<StatefulWidget> createState() => QR_Scanner();
 }
 
-class _QRViewExampleState extends State<QRViewExample> {
+// ignore: camel_case_types
+class QR_Scanner extends State<QRViewExample> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -57,88 +168,19 @@ class _QRViewExampleState extends State<QRViewExample> {
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                  else
-                    const Text('Scan a code'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.flipCamera();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getCameraInfo(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
-                                } else {
-                                  return const Text('loading');
-                                }
-                              },
-                            )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: const Text('pause',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.resumeCamera();
-                          },
-                          child: const Text('resume',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list_outlined), label: "Library"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.qr_code_2), label: "QR Reader"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.watch_later_outlined), label: "Record"),
+        ],
+        onTap: pulsarOpcion,
+        currentIndex: 1,
       ),
     );
   }
@@ -147,7 +189,7 @@ class _QRViewExampleState extends State<QRViewExample> {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 150.0
+        ? 250.0
         : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
@@ -162,6 +204,23 @@ class _QRViewExampleState extends State<QRViewExample> {
           cutOutSize: scanArea),
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );
+  }
+
+  void pulsarOpcion(int index) {
+    switch (index) {
+      case 0:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const QR_Library(),
+        ));
+        break;
+      case 1:
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => const QR_Record(),
+        ));
+        break;
+    }
   }
 
   void _onQRViewCreated(QRViewController controller) {
