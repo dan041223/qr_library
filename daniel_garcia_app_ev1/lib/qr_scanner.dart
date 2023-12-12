@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:daniel_garcia_app_ev1/qr_library.dart';
-import 'package:daniel_garcia_app_ev1/qr_record.dart';
+import 'package:daniel_garcia_app_ev1/my_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class QRScanner extends StatefulWidget {
   const QRScanner({Key? key}) : super(key: key);
@@ -16,6 +16,7 @@ class QRScanner extends StatefulWidget {
 class _QRScannerState extends State<QRScanner> {
   Barcode? result;
   QRViewController? controller;
+
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -31,23 +32,34 @@ class _QRScannerState extends State<QRScanner> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MyScaffold(
+      currentIndex: 1,
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
+          SizedBox(
+            height: 125,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  result?.code ?? "Aqui aparecera el resultado del escaneo",
+                  overflow: TextOverflow.fade,
+                  maxLines: 3,
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                    onPressed: () async {
+                      final Uri url = Uri.parse(result?.code ?? "");
+                      if (!await launchUrl(url)) {
+                        throw Exception('Could not launch');
+                      }
+                    },
+                    child: const Text("Buscar en navegador"))
+              ],
+            ),
+          ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.list_outlined), label: "Library"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code_2), label: "QR Reader"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.watch_later_outlined), label: "Record"),
-        ],
-        onTap: pulsarOpcion,
-        currentIndex: 1,
       ),
     );
   }
@@ -71,23 +83,6 @@ class _QRScannerState extends State<QRScanner> {
           cutOutSize: scanArea),
       onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
     );
-  }
-
-  void pulsarOpcion(int index) {
-    switch (index) {
-      case 0:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const QR_Library(),
-        ));
-        break;
-      case 1:
-        break;
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => const QR_Record(),
-        ));
-        break;
-    }
   }
 
   void _onQRViewCreated(QRViewController controller) {

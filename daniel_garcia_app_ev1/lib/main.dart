@@ -1,9 +1,13 @@
+import 'package:daniel_garcia_app_ev1/my_scaffold.dart';
 import 'package:daniel_garcia_app_ev1/qr_record.dart';
 import 'package:daniel_garcia_app_ev1/qr_scanner.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MaterialApp(
-      home: MyApp(),
+      home: MyScaffold(
+        body: Text('Activar el lector de QR'),
+        currentIndex: 4,
+      ),
       debugShowCheckedModeBanner: false,
     ));
 
