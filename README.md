@@ -5,7 +5,7 @@
 > Por Daniel Garcia Barquilla 2ºDAM
 
 ## Descripción
-Aplicación que se encargará de guardar en una libreria de QR todos los escaneos que realices, otorgando un fácil acceso a los mismos
+Aplicación que se encargará de guardar en una libreria de QR todos los escaneos que realices, otorgando un fácil acceso a los mismos.
 
 ---
 ## Funciones
@@ -13,10 +13,14 @@ Aplicación que se encargará de guardar en una libreria de QR todos los escaneo
 - [x] Mostrar enlaces de los QR
 - [x] Abrir el enlace mediante el navegador del teléfono
 - [x] Poder leer códigos de barras
-- [ ] Guardar los QR
+- [ ] Ver historial de escaneos
+- [ ] Guardar los escaneos
 - [ ] Ordenarlos por categorías, tags, etc...
-- [ ] Compartir los QR
+- [ ] Compartir los QR y códigos de barras
 ---
-## Proximamente:
+## Plataformas:
+- Android
+---
+## En futuras versiones:
 - Poder crear QR
 - Poder crear códigos de barras
