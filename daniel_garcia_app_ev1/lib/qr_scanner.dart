@@ -49,13 +49,20 @@ class _QRScannerState extends State<QRScanner> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                    onPressed: () async {
-                      final Uri url = Uri.parse(result?.code ?? "");
-                      if (!await launchUrl(url)) {
-                        throw Exception('Could not launch');
-                      }
-                    },
-                    child: const Text("Buscar en navegador"))
+                  onPressed: () async {
+                    try {
+                      Uri? url = Uri.parse(result?.code ?? "");
+                      await launchUrl(url);
+                    } catch (e) {
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('No se pudo abrir el enlace')),
+                      );
+                    }
+                  },
+                  child: const Text("Buscar en navegador"),
+                ),
               ],
             ),
           ),
