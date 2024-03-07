@@ -1,9 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:daniel_garcia_app_ev1/bbdd.dart';
 import 'package:daniel_garcia_app_ev1/my_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QRScanner extends StatefulWidget {
@@ -48,21 +50,34 @@ class _QRScannerState extends State<QRScanner> {
                   maxLines: 3,
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () async {
-                    try {
-                      Uri? url = Uri.parse(result?.code ?? "");
-                      await launchUrl(url);
-                    } catch (e) {
-                      // ignore: use_build_context_synchronously
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('No se pudo abrir el enlace')),
-                      );
-                    }
-                  },
-                  child: const Text("Buscar en navegador"),
-                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        try {
+                          Uri? url = Uri.parse(result?.code ?? "");
+                          await launchUrl(url);
+                        } catch (e) {
+                          // ignore: use_build_context_synchronously
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('No se pudo abrir el enlace')),
+                          );
+                        }
+                      },
+                      child: const Text("Buscar en navegador"),
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          Bbdd().insertQR(result);
+                          // ignore: avoid_print
+                          print("PRUEBAAAAAAAAAAAAAAAAAAAAA " +
+                              result.toString());
+                        },
+                        child: const Text("Agregar data"))
+                  ],
+                )
               ],
             ),
           ),
