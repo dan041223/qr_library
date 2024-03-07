@@ -1,3 +1,4 @@
+import 'package:daniel_garcia_app_ev1/login.dart';
 import 'package:daniel_garcia_app_ev1/qr_library.dart';
 import 'package:daniel_garcia_app_ev1/qr_record.dart';
 import 'package:daniel_garcia_app_ev1/qr_scanner.dart';
@@ -13,20 +14,22 @@ class MyScaffold extends StatefulWidget {
 }
 
 class _MyScaffoldState extends State<MyScaffold> {
+  final GlobalKey<ScaffoldMessengerState> snackbarKey =
+      GlobalKey<ScaffoldMessengerState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.currentIndex != 4
           ? widget.body
-          : Center(
-              child: ElevatedButton(
-                onPressed: () =>
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => const QRScanner(),
-                )),
-                child: const Text("Pulsa para iniciar el lector de QR"),
+          : const Center(child: Login()
+              // child: ElevatedButton(
+              //   onPressed: () =>
+              //       Navigator.of(context).pushReplacement(MaterialPageRoute(
+              //     builder: (context) => const QRScanner(),
+              //   )),
+              //   child: const Text("Pulsa para iniciar el lector de QR"),
+              // ),
               ),
-            ),
       bottomNavigationBar: widget.currentIndex != 4
           ? BottomNavigationBar(
               items: const [
