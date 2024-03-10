@@ -51,6 +51,13 @@ class _LoginState extends State<Login> {
         const SizedBox(height: 20),
         ElevatedButton(
             onPressed: () async {
+              if (controllerPass.text.length < 6) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content:
+                        Text("La contraseña debe tener mas de 6 caracteres")));
+                return;
+              }
+
               Bbdd()
                   .signInWithEmail(
                       controllerEmail.text, controllerPass.text, context)

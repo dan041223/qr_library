@@ -50,6 +50,12 @@ class _LogOutState extends State<SignUp> {
           const SizedBox(height: 20),
           ElevatedButton(
               onPressed: () async {
+                if (controllerPass.text.length < 6) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text(
+                          "La contraseña debe tener más de 6 caracteres")));
+                  return;
+                }
                 Bbdd()
                     .signUp(controllerEmail.text, controllerPass.text, context)
                     .then((resultado) {
@@ -57,10 +63,6 @@ class _LogOutState extends State<SignUp> {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => const Login(),
                     ));
-                  } else if (controllerPass.text.length < 6) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text(
-                            "La contraseña debe tener más de 6 caracteres")));
                   }
                 });
               },
