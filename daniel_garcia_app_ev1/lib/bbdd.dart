@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:daniel_garcia_app_ev1/models/qr.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -12,8 +15,24 @@ class Bbdd {
   }
 
   final supabase = Supabase.instance.client;
-  late Session? session;
-  late User? user;
+
+  static Session? session;
+  static User? user;
+
+  Future<bool> signUp(email, pass, context) async {
+    final AuthResponse res = await supabase.auth.signUp(
+      email: email,
+      password: pass,
+    );
+    session = res.session;
+    user = res.user;
+    if (session != null && user != null) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("User registered")));
+      return true;
+    }
+    return true;
+  }
 
   Future<bool> signInWithEmail(email, pass, context) async {
     final AuthResponse res =
@@ -23,6 +42,7 @@ class Bbdd {
     if (session != null && user != null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Usuario encontrado")));
+      File("files\\auth_data.txt").writeAsString(session?.accessToken ?? "");
       return true;
     }
     return false;
@@ -35,8 +55,25 @@ class Bbdd {
   }
 
   Future<void> insertQR(result) async {
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAA" + (user?.toString() ?? ""));
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAA" + (session?.toString() ?? ""));
     await Supabase.instance.client
         .from("qr")
-        .insert({"qr_url": result.toString(), "id_user": user?.id});
+        .insert({"qr_url": result, "id_user": user?.id});
+  }
+
+  Future<List<QR>> obtainListOfQR() async {
+    if (user == null) {
+      return [];
+    }
+    final data = await supabase.from('qr').select("*").eq("id_user", user!.id);
+    List<QR> listaQr = List.empty(growable: true);
+    for (var qrMap in data) {
+      QR qr = QR(qrMap["id_qr"], qrMap["qr_url"], qrMap["name_qr"],
+          qrMap["description"], qrMap["qr_date"], qrMap["id_user"]);
+      listaQr.add(qr);
+    }
+    print(listaQr);
+    return listaQr;
   }
 }

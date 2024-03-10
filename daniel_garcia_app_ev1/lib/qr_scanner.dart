@@ -70,7 +70,18 @@ class _QRScannerState extends State<QRScanner> {
                     ),
                     ElevatedButton(
                         onPressed: () async {
-                          Bbdd().insertQR(result);
+                          if (result == null) return;
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text('Agregando QR a la base de datos...')),
+                          );
+                          await Bbdd().insertQR(result!.code);
+                          ScaffoldMessenger.of(context).clearSnackBars();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('QR agregado con exito')),
+                          );
                           // ignore: avoid_print
                           print("PRUEBAAAAAAAAAAAAAAAAAAAAA " +
                               result.toString());

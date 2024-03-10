@@ -1,3 +1,4 @@
+import 'package:daniel_garcia_app_ev1/bbdd.dart';
 import 'package:daniel_garcia_app_ev1/login.dart';
 import 'package:daniel_garcia_app_ev1/qr_library.dart';
 import 'package:daniel_garcia_app_ev1/qr_record.dart';
@@ -19,6 +20,14 @@ class _MyScaffoldState extends State<MyScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("QRLibrary"),
+        leading: IconButton(
+            onPressed: () {
+              signOut();
+            },
+            icon: const Icon(Icons.logout)),
+      ),
       body: widget.currentIndex != 4
           ? widget.body
           : const Center(child: Login()
@@ -45,6 +54,13 @@ class _MyScaffoldState extends State<MyScaffold> {
             )
           : null,
     );
+  }
+
+  void signOut() {
+    //Bbdd().signOut(context);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => const Login(),
+    ));
   }
 
   void pulsarOpcion(int index, BuildContext context) {

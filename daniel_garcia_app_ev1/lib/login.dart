@@ -1,9 +1,7 @@
-import 'dart:ffi';
-
 import 'package:daniel_garcia_app_ev1/bbdd.dart';
 import 'package:daniel_garcia_app_ev1/qr_scanner.dart';
+import 'package:daniel_garcia_app_ev1/signup.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -20,7 +18,8 @@ class _LoginState extends State<Login> {
   TextEditingController controllerPass = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+        body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -63,13 +62,15 @@ class _LoginState extends State<Login> {
                 }
               });
             },
-            child: const Text("Log in")),
+            child: const Text("Sign In")),
         ElevatedButton(
             onPressed: () {
-              Bbdd().signOut(context);
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const SignUp(),
+              ));
             },
-            child: const Text("Log out"))
+            child: const Text("Sign Up")),
       ],
-    );
+    ));
   }
 }
