@@ -82,9 +82,6 @@ class _QRScannerState extends State<QRScanner> {
                             const SnackBar(
                                 content: Text('QR agregado con exito')),
                           );
-                          // ignore: avoid_print
-                          print("PRUEBAAAAAAAAAAAAAAAAAAAAA " +
-                              result.toString());
                         },
                         child: const Text("Agregar data"))
                   ],

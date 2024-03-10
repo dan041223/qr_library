@@ -55,8 +55,6 @@ class Bbdd {
   }
 
   Future<void> insertQR(result) async {
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAA" + (user?.toString() ?? ""));
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAA" + (session?.toString() ?? ""));
     await Supabase.instance.client
         .from("qr")
         .insert({"qr_url": result, "id_user": user?.id});
@@ -73,7 +71,6 @@ class Bbdd {
           qrMap["description"], qrMap["qr_date"], qrMap["id_user"]);
       listaQr.add(qr);
     }
-    print(listaQr);
     return listaQr;
   }
 }
