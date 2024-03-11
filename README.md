@@ -14,9 +14,12 @@ Aplicación que se encargará de guardar en una libreria de QR todos los escaneo
 - [x] Abrir el enlace mediante el navegador del teléfono
 - [x] Poder leer códigos de barras
 - [ ] Ver historial de escaneos
-- [ ] Guardar los escaneos
+- [x] Guardar los escaneos
 - [ ] Ordenarlos por categorías, tags, etc...
-- [ ] Compartir los QR y códigos de barras
+- [x] Sistema de Login
+- [x] Sistema de SignUp
+- [x] Abrir en navegador la url de los QR
+
 ---
 ## Plataformas:
 - Android
