@@ -42,7 +42,6 @@ class Bbdd {
     if (session != null && user != null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Usuario encontrado")));
-      File("files\\auth_data.txt").writeAsString(session?.accessToken ?? "");
       return true;
     }
     return false;
