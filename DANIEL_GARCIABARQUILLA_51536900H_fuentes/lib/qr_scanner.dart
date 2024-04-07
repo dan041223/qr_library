@@ -1,8 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:daniel_garcia_app_ev1/alert_dialog_add_qr.dart';
 import 'package:daniel_garcia_app_ev1/bbdd.dart';
 import 'package:daniel_garcia_app_ev1/my_scaffold.dart';
+import 'package:daniel_garcia_app_ev1/qr_record.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -15,8 +17,11 @@ class QRScanner extends StatefulWidget {
   State<StatefulWidget> createState() => _QRScannerState();
 }
 
+var lista = [];
+
 class _QRScannerState extends State<QRScanner> {
   Barcode? result;
+  Barcode? preResult;
   QRViewController? controller;
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -122,7 +127,72 @@ class _QRScannerState extends State<QRScanner> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        if (result?.code != preResult?.code) {
+          Bbdd().insertRecordQR(result!.code.toString());
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('QR no antes escaneado')));
+        } else {}
+        preResult = result;
       });
+
+      // if (lista.isEmpty) {
+      //   ScaffoldMessenger.of(context).clearSnackBars();
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(content: Text('QR agregado a historial')),
+      //   );
+      //   lista.add(result?.code.toString());
+      //   showDialog(
+      //       context: context,
+      //       builder: (BuildContext context) {
+      //         return AlertDialogAddQR(
+      //           onSave: () {
+      //             Bbdd().insertRecordQR(result!.code.toString());
+      //           },
+      //           openURL: () async {
+      //             try {
+      //               Uri? url = Uri.parse(result?.code ?? "");
+      //               await launchUrl(url);
+      //             } catch (e) {
+      //               // ignore: use_build_context_synchronously
+      //               ScaffoldMessenger.of(context).showSnackBar(
+      //                 const SnackBar(
+      //                     content: Text('No se pudo abrir el enlace')),
+      //               );
+      //             }
+      //           },
+      //         );
+      //       });
+      // } else if (lista[lista.length - 1] != result!.code.toString()) {
+      //   ScaffoldMessenger.of(context).clearSnackBars();
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(content: Text('QR agregado a historial')),
+      //   );
+      //   lista.add(result?.code.toString());
+      //   showDialog(
+      //       context: context,
+      //       builder: (BuildContext context) {
+      //         return AlertDialogAddQR(
+      //           onSave: () {
+      //             Bbdd().insertRecordQR(result!.code.toString());
+      //           },
+      //           openURL: () async {
+      //             try {
+      //               Navigator.pop(context);
+      //               Navigator.pop(context);
+      //               Uri? url = Uri.parse(result?.code ?? "");
+      //               await launchUrl(url);
+      //             } catch (e) {
+      //               // ignore: use_build_context_synchronously
+      //               ScaffoldMessenger.of(context).showSnackBar(
+      //                 const SnackBar(
+      //                     content: Text('No se pudo abrir el enlace')),
+      //               );
+      //             }
+      //           },
+      //         );
+      //       });
+      // }
     });
   }
 

@@ -3,7 +3,9 @@ import 'package:daniel_garcia_app_ev1/login.dart';
 import 'package:daniel_garcia_app_ev1/qr_library.dart';
 import 'package:daniel_garcia_app_ev1/qr_record.dart';
 import 'package:daniel_garcia_app_ev1/qr_scanner.dart';
+import 'package:daniel_garcia_app_ev1/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MyScaffold extends StatefulWidget {
   final Widget body;
@@ -15,6 +17,7 @@ class MyScaffold extends StatefulWidget {
 }
 
 class _MyScaffoldState extends State<MyScaffold> {
+  final storage = const FlutterSecureStorage();
   final GlobalKey<ScaffoldMessengerState> snackbarKey =
       GlobalKey<ScaffoldMessengerState>();
   @override
@@ -30,15 +33,9 @@ class _MyScaffoldState extends State<MyScaffold> {
       ),
       body: widget.currentIndex != 4
           ? widget.body
-          : const Center(child: Login()
-              // child: ElevatedButton(
-              //   onPressed: () =>
-              //       Navigator.of(context).pushReplacement(MaterialPageRoute(
-              //     builder: (context) => const QRScanner(),
-              //   )),
-              //   child: const Text("Pulsa para iniciar el lector de QR"),
-              // ),
-              ),
+          : const Center(
+              child: splash_screen(),
+            ),
       bottomNavigationBar: widget.currentIndex != 4
           ? BottomNavigationBar(
               items: const [
@@ -58,6 +55,7 @@ class _MyScaffoldState extends State<MyScaffold> {
 
   void signOut() {
     //Bbdd().signOut(context);
+    storage.deleteAll();
     Navigator.of(context).pushReplacement(MaterialPageRoute(
       builder: (context) => const Login(),
     ));

@@ -43,6 +43,9 @@ class Bbdd {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Usuario encontrado")));
       return true;
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("User not found")));
     }
     return false;
   }
@@ -54,9 +57,25 @@ class Bbdd {
   }
 
   Future<void> insertQR(result) async {
-    await Supabase.instance.client
-        .from("qr")
-        .insert({"qr_url": result, "id_user": user?.id});
+    await supabase.from("qr").insert({"qr_url": result, "id_user": user?.id});
+  }
+
+  Future<void> insertRecordQR(String result) async {
+    // ignore: non_constant_identifier_names
+    // final QR = await supabase
+    //     .from("qr")
+    //     .select()
+    //     .eq("qr_url", result)
+    //     .eq("id_user", user!.id);
+
+    // if (QR.isEmpty) {
+    await supabase.from("qr").insert({"qr_url": result, "id_user": user?.id});
+    // } else {
+    //   final cosa = await supabase.from("qr").update({
+    //     "description": DateTime.now().millisecondsSinceEpoch.toString()
+    //   }).match({"id_qr": 99});
+    //   if (cosa == null) {}
+    // }
   }
 
   Future<List<QR>> obtainListOfQR() async {
@@ -64,6 +83,24 @@ class Bbdd {
       return [];
     }
     final data = await supabase.from('qr').select("*").eq("id_user", user!.id);
+    List<QR> listaQr = List.empty(growable: true);
+    for (var qrMap in data) {
+      QR qr = QR(qrMap["id_qr"], qrMap["qr_url"], qrMap["name_qr"],
+          qrMap["description"], qrMap["qr_date"], qrMap["id_user"]);
+      listaQr.add(qr);
+    }
+    return listaQr;
+  }
+
+  Future<List<QR>> obtainQRRecord() async {
+    if (user == null) {
+      return [];
+    }
+    final data = await supabase
+        .from('qr')
+        .select("*")
+        .eq("id_user", user!.id)
+        .order("qr_date", ascending: true);
     List<QR> listaQr = List.empty(growable: true);
     for (var qrMap in data) {
       QR qr = QR(qrMap["id_qr"], qrMap["qr_url"], qrMap["name_qr"],
