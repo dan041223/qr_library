@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:daniel_garcia_app_ev1/models/qr.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -39,11 +37,11 @@ class Bbdd {
         await supabase.auth.signInWithPassword(email: email, password: pass);
     session = res.session;
     user = res.user;
-    if (session != null && user != null) {
+    if (session != null && user != null && context != null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Usuario encontrado")));
       return true;
-    } else {
+    } else if (context != null) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("User not found")));
     }

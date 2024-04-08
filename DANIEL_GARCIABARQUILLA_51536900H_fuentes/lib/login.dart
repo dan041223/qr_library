@@ -3,7 +3,6 @@ import 'package:daniel_garcia_app_ev1/qr_scanner.dart';
 import 'package:daniel_garcia_app_ev1/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart' as security;
 
 class Login extends StatefulWidget {
   const Login({super.key});

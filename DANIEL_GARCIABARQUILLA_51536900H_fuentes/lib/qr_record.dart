@@ -17,6 +17,7 @@ class _QR_RecordState extends State<QR_Record> {
   List<QR>? qrList;
   @override
   initState() {
+    super.initState();
     Future.delayed(const Duration(milliseconds: 1), () async {
       qrList = await Bbdd().obtainListOfQR();
       setState(() {});

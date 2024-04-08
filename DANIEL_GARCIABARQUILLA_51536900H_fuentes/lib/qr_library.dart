@@ -1,8 +1,6 @@
-import 'package:daniel_garcia_app_ev1/bbdd.dart';
 import 'package:daniel_garcia_app_ev1/models/qr.dart';
 import 'package:daniel_garcia_app_ev1/my_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class QR_Library extends StatefulWidget {
   const QR_Library({super.key});

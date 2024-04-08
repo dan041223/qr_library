@@ -1,13 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:daniel_garcia_app_ev1/alert_dialog_add_qr.dart';
 import 'package:daniel_garcia_app_ev1/bbdd.dart';
 import 'package:daniel_garcia_app_ev1/my_scaffold.dart';
-import 'package:daniel_garcia_app_ev1/qr_record.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class QRScanner extends StatefulWidget {

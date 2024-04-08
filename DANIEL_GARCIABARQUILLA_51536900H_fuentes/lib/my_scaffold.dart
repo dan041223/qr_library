@@ -1,9 +1,7 @@
-import 'package:daniel_garcia_app_ev1/bbdd.dart';
 import 'package:daniel_garcia_app_ev1/login.dart';
 import 'package:daniel_garcia_app_ev1/qr_library.dart';
 import 'package:daniel_garcia_app_ev1/qr_record.dart';
 import 'package:daniel_garcia_app_ev1/qr_scanner.dart';
-import 'package:daniel_garcia_app_ev1/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -20,6 +18,7 @@ class _MyScaffoldState extends State<MyScaffold> {
   final storage = const FlutterSecureStorage();
   final GlobalKey<ScaffoldMessengerState> snackbarKey =
       GlobalKey<ScaffoldMessengerState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +33,7 @@ class _MyScaffoldState extends State<MyScaffold> {
       body: widget.currentIndex != 4
           ? widget.body
           : const Center(
-              child: splash_screen(),
+              child: Login(),
             ),
       bottomNavigationBar: widget.currentIndex != 4
           ? BottomNavigationBar(
